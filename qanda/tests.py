@@ -3,6 +3,7 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from qanda.views import home_page
+from qanda.models import Answer
 
 # Create your tests here.
 class HomePageTest(TestCase):
