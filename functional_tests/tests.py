@@ -1,6 +1,7 @@
 from selenium import webdriver
 from django.test import LiveServerTestCase
 import unittest
+import time
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -21,11 +22,12 @@ class NewVisitorTest(LiveServerTestCase):
 		self.browser.find_element_by_id("submit").click()
 		current_url = self.browser.current_url
 		self.assertEqual(current_url, 'http://localhost:8081/the_only_question/')
+		# time.sleep (20)
 
-		
 # A wild question appears! with four potential answers
 
-
+		question_text = self.browser.find_element_by_tag_name('body').text
+		self.assertIn('Question #1', question_text)
 
 # A first attempt at an answer is made, wrong answer!
 
