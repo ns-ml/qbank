@@ -3,7 +3,7 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from qanda.views import home_page
-from qanda.models import Answer, Question
+from qanda.models import Answer
 
 # Create your tests here.
 class HomePageTest(TestCase):
@@ -18,20 +18,15 @@ class HomePageTest(TestCase):
 		expected_html = render_to_string('home.html')
 		self.assertEqual(response.content.decode(), expected_html)
 
-class QuestionandAnswerModelTest(TestCase):
+class QuestionandAnswerViewTest(TestCase):
 	
 	def test_save_and_retrieve_an_answer(self):
-		question_stem = Question()
-		question_stem.save()
-
-		first_answer = Answer()
-		first_answer.text = "First answer ever"
-		first_answer.question = question_stem
-		first_answer.save()
+		answer = Answer()
+		answer.text = "First answer ever"
+		answer.save()
 
 		second_answer = Answer()
 		second_answer.text = "Second answer!"
-		second_answer.question = question_stem
 		second_answer.save()
 
 		saved_answers = Answer.objects.all()
