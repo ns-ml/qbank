@@ -6,6 +6,7 @@ from qanda.views import home_page
 from qanda.models import Answer, Question
 
 # Create your tests here.
+
 class HomePageTest(TestCase):
 
 	def test_root_url_resolves_to_home_page(self):
@@ -18,7 +19,7 @@ class HomePageTest(TestCase):
 		expected_html = render_to_string('home.html')
 		self.assertEqual(response.content.decode(), expected_html)
 
-class QuestionandAnswerViewTest(TestCase):
+class QuestionandAnswerModelTest(TestCase):
 	
 	def test_save_and_retrieve_an_answer(self):
 		question_stem = Question()
@@ -43,4 +44,11 @@ class QuestionandAnswerViewTest(TestCase):
 		self.assertEqual(first_answer.question, question_stem)
 		self.assertIn('Second', second_saved_answer.text)
 		self.assertEqual(second_answer.question, question_stem)
-		
+
+class QandAViewTest (TestCase):
+
+	def test_uses_view_template(self):
+		question_stem = Question.objects.create()
+		response = self.client.get('/questions/%d/' % (question_stem.id,))
+		self.assertTemplateUsed(response, 'view_question.html')
+
