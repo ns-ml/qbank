@@ -14,7 +14,7 @@
 </form> -->
 <table id='id_answers_table'>
 	{% for answer in answers %}
-	<tr><td>{{ answer.text }}</td></tr>
+	<input type="radio" name='answers' value='answer_{{ forloop.counter }}'> {{ answer.text }} <br>
 	{% endfor %}
 </table>
 </body>
