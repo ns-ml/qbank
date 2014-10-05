@@ -21,7 +21,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 		self.browser.find_element_by_id("submit").click()
 		current_url = self.browser.current_url
-		self.assertEqual(current_url, 'http://localhost:8081/the_only_question/')
+		self.assertEqual(current_url, 'http://localhost:8081/questions/1/')
 		# time.sleep (20)
 
 # A wild question appears! with four potential answers
