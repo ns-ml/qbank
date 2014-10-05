@@ -52,3 +52,16 @@ class QandAViewTest (TestCase):
 		response = self.client.get('/questions/%d/' % (question_stem.id,))
 		self.assertTemplateUsed(response, 'view_question.html')
 
+	def test_displays_answers_only_for_that_question(self):
+		correct_question = Question.objects.create()
+		Answer.objects.create(text="Answer 1", question=correct_question)
+		Answer.objects.create(text="Answer 2", question=correct_question)
+		other_question = Question.objects.create()
+		Answer.objects.create(text="Other Answer 1", question=other_question)
+		Answer.objects.create(text="Other Answer 2", question=other_question)
+		
+		response = self.client.get('/questions/%d/' % (correct_question.id,))
+
+		self.assertContains(response, 'Answer 1')
+		self.assertNotContains(response, 'Other Answer')
+

@@ -5,12 +5,17 @@
 </head>
 <body>
 <p>Question #1 There are four possible answers</p>
-<form>
+<!-- <form>
 	<input type="radio" name ='answers' value='answer_1'>First Answer<br>
 	<input type="radio" name ='answers' value='answer_2'>Second Answer<br>
 	<input type="radio" name ='answers' value='answer_3'>Third Answer<br>
 	<input type="radio" name ='answers' value='answer_4'>Fourth <br>
 	<input type="Submit" value="Submit" id='submit'>
-</form>
+</form> -->
+<table id='id_answers_table'>
+	{% for answer in answers %}
+	<tr><td>{{ answer.text }}</td></tr>
+	{% endfor %}
+</table>
 </body>
 </html>

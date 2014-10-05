@@ -2,6 +2,7 @@ from selenium import webdriver
 from django.test import LiveServerTestCase
 import unittest
 import time
+from qanda.models import Question, Answer
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -17,6 +18,10 @@ class NewVisitorTest(LiveServerTestCase):
 		self.browser.get(self.live_server_url)
 		self.assertIn('Welcome to Q Bank', self.browser.title)
 
+		first_question = Question.objects.create()
+		Answer.objects.create(text="Answer 1", question=first_question)
+		Answer.objects.create(text="Answer 2", question=first_question)
+
 # Student clicks the start button and is taken to the first question
 
 		self.browser.find_element_by_id("submit").click()
@@ -24,10 +29,16 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertEqual(current_url, 'http://localhost:8081/questions/1/')
 		# time.sleep (20)
 
-# A wild question appears! with four potential answers
+# A wild (first) question appears!
 
 		question_text = self.browser.find_element_by_tag_name('body').text
 		self.assertIn('Question #1', question_text)
+
+# # Two potential answers
+# 		self.browser.get('/questions/%d/' % (first_question.id,))
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.assertIn('Answer 1', page_text)
+		time.sleep(10)
 
 # A first attempt at an answer is made, wrong answer!
 
