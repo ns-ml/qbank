@@ -11,7 +11,7 @@ class NewVisitorTest(unittest.TestCase):
 
 	def test_can_show_a_question(self):
 		self.browser.get('http://localhost:8000')
-		self.assertIn('Welcome to qbank', self.browser.title)
+		self.assertIn('Welcome to Q Bank', self.browser.title)
 		self.fail('Finish the test')
 
 # Student arrives at qbank website
