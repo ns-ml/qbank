@@ -9,5 +9,5 @@ def view_question(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
 	answers = Answer.objects.filter(question=question_stem)
 	return render (request, 'view_question.html', {
-		'answers': answers
+		'answers': answers, 'question_stem': question_stem.text
 		})

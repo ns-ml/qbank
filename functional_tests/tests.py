@@ -18,7 +18,7 @@ class NewVisitorTest(LiveServerTestCase):
 		self.browser.get(self.live_server_url)
 		self.assertIn('Welcome to Q Bank', self.browser.title)
 
-		first_question = Question.objects.create()
+		first_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1", question=first_question)
 		Answer.objects.create(text="Answer 2", question=first_question)
 
