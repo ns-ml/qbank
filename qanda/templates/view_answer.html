@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NSQ Questions</title>
+</head>
+<body>
+<p>{{ question_stem.text }}</p>
+<form method="POST" action="/questions/{{ next_question_id }}/">
+<table id='id_answers_table'>
+{% for answer in correct_answer %}
+	<tr><td>{{ answer.text }}</td></tr>
+{% endfor %}		
+</table>
+<input type='Submit' value='Next Question' id='submit' autofocus>
+{% csrf_token %}
+</form>
+</body>
+</html>

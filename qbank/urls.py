@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'qanda.views.home_page', name='home'),
     url(r'^questions/(\d+)/$', 'qanda.views.view_question', name='question'),
+    url(r'^questions/(\d+)/answer$', 'qanda.views.view_answer', name='answer'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),

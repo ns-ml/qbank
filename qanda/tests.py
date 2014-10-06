@@ -45,7 +45,7 @@ class QuestionandAnswerModelTest(TestCase):
 		self.assertIn('Second', second_saved_answer.text)
 		self.assertEqual(second_answer.question, question_stem)
 
-class QandAViewTest (TestCase):
+class QuestionViewTest (TestCase):
 
 	def test_uses_view_template(self):
 		question_stem = Question.objects.create()
@@ -69,5 +69,33 @@ class QandAViewTest (TestCase):
 		self.assertNotContains(response, 'Other Answer')
 		self.assertTrue(saved_answers[0])
 
-		
+class AnswerViewTest (TestCase):
+	
+	def test_uses_view_template(self):
+		question_stem = Question.objects.create()
+		response = self.client.get('/questions/%d/answer' % (question_stem.id,))
+		self.assertTemplateUsed(response, 'view_answer.html')
 
+	def test_displays_question_stem_and_correct_answer_only(self):
+		correct_question = Question.objects.create(text="Question #1: This is the first question ever")
+		Answer.objects.create(text="Answer 1", question=correct_question, correct=True)
+		Answer.objects.create(text="Answer 2", question=correct_question, correct=False)
+
+		response = self.client.get('/questions/%d/answer' % (correct_question.id,))
+
+		self.assertContains(response, 'Answer 1')
+		self.assertNotContains(response, 'Answer 2')
+
+	def test_redirects_to_next_question(self):
+		current_question = Question.objects.create(text="Question 1")
+		next_question = Question.objects.create(text="Question 2")
+
+		# response = self.client.post(
+		# 	'/questions/%d/answer/' % (current_question.id,))
+
+		# self.assertRedirects(response, '/questions/%d/' % (current_question.id,))
+
+		response = self.client.post(
+			'/questions/1/answer',)
+
+		self.assertRedirects(response, '/questions/1/')
