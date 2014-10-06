@@ -54,15 +54,20 @@ class QandAViewTest (TestCase):
 
 	def test_displays_answers_only_for_that_question(self):
 		correct_question = Question.objects.create(text="Question #1: This is the first question ever")
-		Answer.objects.create(text="Answer 1", question=correct_question)
-		Answer.objects.create(text="Answer 2", question=correct_question)
+		Answer.objects.create(text="Answer 1", question=correct_question, correct=True)
+		Answer.objects.create(text="Answer 2", question=correct_question, correct=False)
 		other_question = Question.objects.create()
 		Answer.objects.create(text="Other Answer 1", question=other_question)
 		Answer.objects.create(text="Other Answer 2", question=other_question)
 		
 		response = self.client.get('/questions/%d/' % (correct_question.id,))
 
+		saved_answers = Answer.objects.all()
+
 		self.assertContains(response, 'Answer 1')
 		self.assertContains(response, 'Question #1')
 		self.assertNotContains(response, 'Other Answer')
+		self.assertTrue(saved_answers[0])
+
+		
 

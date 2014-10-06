@@ -6,4 +6,5 @@ class Question(models.Model):
 
 class Answer(models.Model):
 	text = models.TextField(default='')
+	correct = models.BooleanField(default='')
 	question = models.ForeignKey(Question, default=None)
