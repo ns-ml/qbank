@@ -24,6 +24,11 @@ class NewVisitorTest(LiveServerTestCase):
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
 		Explination.objects.create(text="Explination for question #1", question=first_question)
 
+		second_question = Question.objects.create(text="Question #2: El secundo")
+		Answer.objects.create(text="Second question answer #1", question=second_question, correct=True)
+		Answer.objects.create(text="Second question answer #2", question=second_question, correct=False)
+		Explination.objects.create(text="Explination for question #2", question=second_question)
+
 
 # Student clicks the start button and is taken to the first question
 
@@ -43,7 +48,15 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertIn('Answer 1', page_text)
 
 # A first attempt at an answer is made, wrong answer!
+		inputbox = self.browser.find_element_by_tag_name('input')
+		inputbox.send_keys(Keys.TAB)
+		inputbox.send_keys(Keys.SPACE)
+		inputbox.send_keys(Keys.DOWN)
+		
+		self.browser.find_element_by_id("submit").click()
+		page_text = self.browser.find_element_by_tag_name('body').text
 
+		self.assertIn('try again', page_text)
 		
 # A second attmept, correct answer. User is taken to the answer explination page
 		inputbox = self.browser.find_element_by_tag_name('input')
@@ -55,6 +68,10 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertIn('Explination for question #1', page_text)
 
 # Click on next button, which has been enabled
+		self.browser.find_element_by_id("submit").click()
+		page_text = self.browser.find_element_by_tag_name('body').text
 
+		print(page_text)
+		self.assertIn('secundo', page_text)
 # Student moves on to the next question
 		self.fail('Finish the test')

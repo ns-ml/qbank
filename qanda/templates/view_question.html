@@ -8,7 +8,7 @@
 <form method="POST" action="/questions/{{ question_stem.id }}/">
 <table id='id_answers_table'>
 	{% for answer in answers %}
-	<input type="radio" name='radio_answer' value='{{answer.text}}'> {{ answer.text }} <br>
+	<input type="radio" name='radio_answer' value='{{answer.text}}' required='true'> {{ answer.text }} <br>
 	{% endfor %}
 </table>
 <p>{{ try_again }}</p>
