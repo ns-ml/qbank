@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>NSQ Questions</title>
-</head>
-<body>
-<p>{{ question_stem.text }}</p>
+{% extends 'base.html' %}
+
+{% block question_block %}
+{{ question_stem.text }}
+{% endblock %}
+
+{% block answer_block %}
 {% for answer in correct_answer %}
 {{ answer.text }}
-{% endfor %}		
+{% endfor %}
+{% endblock %}
+		
+{% block explination_block %}<p>{{ explination_text.text }}</p>{% endblock %}	
 
-<p>{{ explination_text.text }}</p>
-<form method="GET" action="/questions/{{ next_question_id }}/">
-{% csrf_token %}
-<input type='Submit' value='Next Question' id='submit' autofocus>
-</form>
-</body>
-</html>
+{% block form_action %}
+	<form method="GET" action="/questions/{{ next_question_id }}/">
+		{% csrf_token %}
+		<input type='Submit' value='Next Question' id='submit' autofocus>
+	</form>
+{% endblock %}

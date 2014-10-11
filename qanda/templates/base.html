@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NSQ Questions</title>
+</head>
+<body>
+<p>{% block question_block %}{% endblock %}</p>
+
+{% block answer_block %}
+{% endblock %}
+
+{% for answer in correct_answer %}
+{{ answer.text }}
+{% endfor %}	
+
+{% block explination_block %}{% endblock %}	
+
+{% block form_action %}
+{% endblock %}	
+
+</body>
+</html>

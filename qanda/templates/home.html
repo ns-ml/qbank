@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Welcome to Q Bank</title>
-</head>
 <body>
+{% block question_block %}
 <h1>Welcome to Q Bank</h1>
 <h2>Press the button below to get started</h2>
+{% endblock %}
 
-<form>
-	
-</form>
+{% block form_action %}
 <form action="/questions/1/">
 	<input type="Submit" value="Start!" id='submit'>
 </form>
-</body>
-</html>
+{% endblock %}	
