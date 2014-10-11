@@ -1,17 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from qanda.models import Answer, Question, Explination, AnswerForm
+import django.contrib
+django.contrib.admin.AdminSite.site_header = "Qbank Administration"
+django.contrib.admin.AdminSite.site_title = "Qbank Administration"
 
 # Create your views here.
 def home_page(request):
 	return render (request, 'home.html')
 
-def view_question(request, question_id):
-	question_stem = Question.objects.get(id=question_id)
-	answers = Answer.objects.filter(question=question_stem)
-	return render (request, 'view_question.html', {
-		'answers': answers, 'question_stem': question_stem
-		})
+# def view_question(request, question_id):
+# 	question_stem = Question.objects.get(id=question_id)
+# 	answers = Answer.objects.filter(question=question_stem)
+# 	return render (request, 'view_question.html', {
+# 		'answers': answers, 'question_stem': question_stem
+# 		})
 
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
@@ -30,7 +33,7 @@ def check_answer(request, question_id):
 	next_question_id = int(question_id)+1
 	answers = Answer.objects.filter(question=question_stem)
 	correct_answer = Answer.objects.get(question=question_stem, correct=True)
-	
+
 	if request.method == 'POST':
 		form = AnswerForm(request.POST)
 		if form.is_valid():

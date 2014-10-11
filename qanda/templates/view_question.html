@@ -6,12 +6,12 @@
 <body>
 <p>{{ question_stem.text }}</p>
 <form method="POST" action="/questions/{{ question_stem.id }}/">
-<!-- <table id='id_answers_table'>
+<table id='id_answers_table'>
 	{% for answer in answers %}
-	<input type="radio" name='answers' value='answer_{{ forloop.counter }}'> {{ answer.text }} <br>
+	<input type="radio" name='radio_answer' value='answer_{{ forloop.counter }}'> {{ answer.text }} <br>
 	{% endfor %}
 </table>
- -->
+
  {{ form }}
 <p><input type='Submit' value='View Correct Answer' id='submit'></p>
 {% csrf_token %}

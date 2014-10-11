@@ -49,6 +49,7 @@ class QuestionViewTest (TestCase):
 
 	def test_uses_view_template(self):
 		question_stem = Question.objects.create()
+		Answer.objects.create(text='',question=question_stem, correct=True)
 		response = self.client.get('/questions/%d/' % (question_stem.id,))
 		self.assertTemplateUsed(response, 'view_question.html')
 
@@ -99,21 +100,6 @@ class AnswerViewTest (TestCase):
 
 		explination_text = Explination.objects.get(question=correct_question)
 		self.assertEqual('Correct explination', explination_text.text)
-	# def test_redirects_to_next_question(self):
-	# 	current_question = Question.objects.create(id=1)
-	# 	next_question = Question.objects.create(id=2)
 
-	# 	response = self.client.post(
-	# 		'/questions/%d/answer' % (current_question.id,)
-	# 		)
 
-	# 	self.assertRedirects(response, '/questions/%d' % (next_question.id,))
-
-	def test_checks_for_correct_answer(self):
-		question_stem = Question.objects.create()
-		Answer.objects.create(text='correct answer', question=question_stem, correct=True)
-		Explination.objects.create(text='', question=question_stem)
-
-		response = self.client.post(
-			'/questions/%d/' % (question_stem.id))
 
