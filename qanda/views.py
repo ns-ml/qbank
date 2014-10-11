@@ -29,15 +29,14 @@ def check_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
 	next_question_id = int(question_id)+1
 	answers = Answer.objects.filter(question=question_stem)
-	explination_text = get_object_or_404(Explination, question=question_stem)
-	correct_answer = Answer.objects.filter(question=question_stem, correct=True)
+	correct_answer = Answer.objects.get(question=question_stem, correct=True)
 	
 	if request.method == 'POST':
 		form = AnswerForm(request.POST)
 		if form.is_valid():
 			user_answer = form.cleaned_data['user_answer']
 
-			if user_answer == "1":
+			if user_answer == correct_answer.text:
 				return HttpResponseRedirect('/questions/%d' % (next_question_id))
 	else:
 		form = AnswerForm()
