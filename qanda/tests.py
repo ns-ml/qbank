@@ -83,8 +83,6 @@ class QuestionViewTest (TestCase):
 
 		self.assertEqual(correct_answer.text, user_answer)
 
-
-
 class AnswerViewTest (TestCase):
 	
 	def test_uses_view_template(self):

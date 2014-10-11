@@ -1,11 +1,98 @@
-<body>
-{% block question_block %}
-<h1>Welcome to Q Bank</h1>
-<h2>Press the button below to get started</h2>
-{% endblock %}
+<!DOCTYPE HTML>
+<!--
+	Webdesign by Sciatic126
+-->
+<html>
+	<head>
+	<title>Neurosurgery Question Bank</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="Neurosurgery Written Board Preperation" />
+		<meta name="keywords" content="Neurosurgery, Board, Question Bank" />
+		<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" type="text/css" href="/static/style.css">
+		<!-- Dropotron -->
+		<script src="/static/js/jquery.js"></script>
+		<script src="/static/js/jquery.dropotron.min.js"></script>
+			<script>
+			$(function() {
+				
+				// Note: make sure you call dropotron on the top level <ul>
+				$('#nav > ul').dropotron({ 
+					offsetY: -10 // Nudge up submenus by 10px to account for padding
+				});
+			
+			});
+			</script>
 
-{% block form_action %}
-<form action="/questions/1/">
-	<input type="Submit" value="Start!" id='submit'>
-</form>
-{% endblock %}	
+
+
+	</head>
+
+	<body class="homepage">
+
+		<div id='header'>
+			<div class='container'>
+				<!--Logo-->
+				<h1>NSQ</h1>
+
+				<!--Nav Bar-->
+				<nav id='nav'>
+					<ul class="menu">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="#">About</a>
+						<ul>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">About the Exam</a></li>
+						</ul>
+						</li>
+						<li><a href='#'>Preview</a></li>
+						<li><a href="#">Log In</a></li>
+					</ul>
+				</nav>
+
+				<!-- Banner -->
+				<div class="jumbotron">
+				<div id="banner">
+					<div class="container">
+						<section>
+							<header class="major">
+								<h2>Welcome to NSQ!</h2>
+								<span class="byline">&hellip; your source for review questions for preperation for the neurosurgery written board examination&hellip;</span>
+							</header>
+							<a href="/questions/1/" class="button alt">Get Started</a>
+						</section>
+					</div>
+					
+				</div>
+				</div>
+				</div>
+								</div>
+
+				<!-- Featured -->
+				<div class="wrapper style1">
+					<section class="container">
+					<header class='major'>
+						<h2>Studying, Simplified</h2>
+						<span class="byline">Reviewing material for the exam has never been easier</span>
+					</header>
+
+						<div class="row">
+						<section class="col-md-4">
+							<a href="#" class="image feature"><img src="/static/imgs/pic02.jpg"></a>
+							<p>Rapid Review</p>
+						</section>
+						<section class="col-md-4">
+							<a href="#" class="image feature"><img src="/static/imgs/pic03.jpg"></a>
+							<p>Concise Explinations</p>
+						</section>
+						<section class="col-md-4">
+							<a href="#" class="image feature"><img src="/static/imgs/pic04.jpg"></a>
+							<p>Well Researched References</p>
+						</section>
+						</div>
+							
+					</section>
+				</div>
+
+				</body>

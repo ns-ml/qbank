@@ -1,11 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import time
 from qanda.models import Question, Answer, Explination
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -17,7 +17,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 	def test_can_show_a_question(self):
 		self.browser.get(self.live_server_url)
-		self.assertIn('Welcome to Q Bank', self.browser.title)
+		self.assertIn('Neurosurgery', self.browser.title)
 
 		first_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
@@ -32,7 +32,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 # Student clicks the start button and is taken to the first question
 
-		self.browser.find_element_by_id("submit").click()
+		self.browser.find_element_by_id("submit_id").click()
 		current_url = self.browser.current_url
 		self.assertEqual(current_url, 'http://localhost:8081/questions/1/')
 		# time.sleep (20)
@@ -53,7 +53,7 @@ class NewVisitorTest(LiveServerTestCase):
 		inputbox.send_keys(Keys.SPACE)
 		inputbox.send_keys(Keys.DOWN)
 		
-		self.browser.find_element_by_id("submit").click()
+		self.browser.find_element_by_id("submit_id").click()
 		page_text = self.browser.find_element_by_tag_name('body').text
 
 		self.assertIn('try again', page_text)
@@ -62,16 +62,14 @@ class NewVisitorTest(LiveServerTestCase):
 		inputbox = self.browser.find_element_by_tag_name('input')
 		inputbox.send_keys(Keys.TAB)
 		inputbox.send_keys(Keys.SPACE)
-		self.browser.find_element_by_id("submit").click()
+		self.browser.find_element_by_id("submit_id").click()
 
 		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertIn('Explination for question #1', page_text)
 
 # Click on next button, which has been enabled
-		self.browser.find_element_by_id("submit").click()
+		self.browser.find_element_by_id("submit_id").click()
 		page_text = self.browser.find_element_by_tag_name('body').text
-
-		print(page_text)
 		self.assertIn('secundo', page_text)
 # Student moves on to the next question
 		self.fail('Finish the test')

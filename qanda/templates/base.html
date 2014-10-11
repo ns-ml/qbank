@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>NSQ Questions</title>
+	<title>The Neurosurgery Question Bank</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="/static/base.css" rel="stylesheet" media="screen">
 </head>
 <body>
-<p>{% block question_block %}{% endblock %}</p>
+<p></p>
+<div class='container'>
+	<div class="row">
+		<div class="col-md-6">
+			<p>{% block question_block %}{% endblock %}</p>
+		</div>
+	</div>
 
-{% block answer_block %}
-{% endblock %}
+	<div class="row">
+		<div class="col-md-6">
+			{% block answer_block %}{% endblock %}
+		</div>
+	</div>
 
-{% for answer in correct_answer %}
-{{ answer.text }}
-{% endfor %}	
+	<div class="row">
+		<div class="col-md-6">
+			{% block explination_block %}{% endblock %}	
+		</div>
+	</div>
 
-{% block explination_block %}{% endblock %}	
-
-{% block form_action %}
-{% endblock %}	
+	<div class="row">
+		<div class="col-md-6">
+			{% block form_action %}{% endblock %}	
+		</div>
+	</div>	
+</div>
 
 </body>
 </html>
