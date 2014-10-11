@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
 import unittest
 import time
@@ -40,13 +41,18 @@ class NewVisitorTest(LiveServerTestCase):
 # 		self.browser.get('/questions/%d/' % (first_question.id,))
 		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertIn('Answer 1', page_text)
-		time.sleep(10)
 
 # A first attempt at an answer is made, wrong answer!
-		# self.browser.find_element_by_id("submit").click()
 
 		
-# A second attmept, correct answer. Text changes to green and an explination appears below
+# A second attmept, correct answer. User is taken to the answer explination page
+		inputbox = self.browser.find_element_by_tag_name('input')
+		inputbox.send_keys(Keys.TAB)
+		inputbox.send_keys(Keys.SPACE)
+		self.browser.find_element_by_id("submit").click()
+
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.assertIn('Explination for question #1', page_text)
 
 # Click on next button, which has been enabled
 

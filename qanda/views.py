@@ -23,14 +23,14 @@ def view_answer(request, question_id):
 
 def check_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
-	next_question_id = int(question_id)+1
+	question_number = int(question_stem.id)
 	answers = Answer.objects.filter(question=question_stem)
 	correct_answer = Answer.objects.get(question=question_stem, correct=True)
 
 	if request.method == 'POST':
 		user_answer = request.POST['radio_answer']
 		if user_answer == correct_answer.text:
-			return HttpResponseRedirect('/questions/%d' % (next_question_id))
+			return HttpResponseRedirect('/questions/%d/answer' % (question_number,))
 
 	return render (request, 'view_question.html', {
 		'answers': answers, 'question_stem': question_stem,
