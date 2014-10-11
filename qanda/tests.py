@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from qanda.views import home_page
+from qanda.views import home_page, check_answer
 from qanda.models import Answer, Question, Explination
 
 # Create your tests here.
@@ -69,6 +69,21 @@ class QuestionViewTest (TestCase):
 		self.assertContains(response, 'Question #1')
 		self.assertNotContains(response, 'Other Answer')
 		self.assertTrue(saved_answers[0])
+
+	def test_question_view_page_can_save_a_POST_request(self):
+		question_stem = Question.objects.create()
+		correct_answer = Answer.objects.create(text='Test radio answer',question=question_stem, correct=True)
+
+		request = HttpRequest()
+		request.method = 'POST'
+		request.POST['radio_answer'] = 'Test radio answer'
+		user_answer = request.POST['radio_answer']
+
+		response = check_answer(request, '1')
+
+		self.assertEqual(correct_answer.text, user_answer)
+
+
 
 class AnswerViewTest (TestCase):
 	

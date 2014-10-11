@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from qanda.models import Answer, Question, Explination, AnswerForm
+from qanda.models import Answer, Question, Explination
 import django.contrib
 django.contrib.admin.AdminSite.site_header = "Qbank Administration"
 django.contrib.admin.AdminSite.site_title = "Qbank Administration"
@@ -8,13 +8,6 @@ django.contrib.admin.AdminSite.site_title = "Qbank Administration"
 # Create your views here.
 def home_page(request):
 	return render (request, 'home.html')
-
-# def view_question(request, question_id):
-# 	question_stem = Question.objects.get(id=question_id)
-# 	answers = Answer.objects.filter(question=question_stem)
-# 	return render (request, 'view_question.html', {
-# 		'answers': answers, 'question_stem': question_stem
-# 		})
 
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
@@ -35,15 +28,10 @@ def check_answer(request, question_id):
 	correct_answer = Answer.objects.get(question=question_stem, correct=True)
 
 	if request.method == 'POST':
-		form = AnswerForm(request.POST)
-		if form.is_valid():
-			user_answer = form.cleaned_data['user_answer']
-
-			if user_answer == correct_answer.text:
-				return HttpResponseRedirect('/questions/%d' % (next_question_id))
-	else:
-		form = AnswerForm()
+		user_answer = request.POST['radio_answer']
+		if user_answer == correct_answer.text:
+			return HttpResponseRedirect('/questions/%d' % (next_question_id))
 
 	return render (request, 'view_question.html', {
-		'answers': answers, 'question_stem': question_stem, 'form': form
+		'answers': answers, 'question_stem': question_stem,
 		})

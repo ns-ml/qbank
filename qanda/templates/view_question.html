@@ -8,11 +8,9 @@
 <form method="POST" action="/questions/{{ question_stem.id }}/">
 <table id='id_answers_table'>
 	{% for answer in answers %}
-	<input type="radio" name='radio_answer' value='answer_{{ forloop.counter }}'> {{ answer.text }} <br>
+	<input type="radio" name='radio_answer' value='{{answer.text}}'> {{ answer.text }} <br>
 	{% endfor %}
 </table>
-
- {{ form }}
 <p><input type='Submit' value='View Correct Answer' id='submit'></p>
 {% csrf_token %}
 </form>

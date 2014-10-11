@@ -19,8 +19,8 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertIn('Welcome to Q Bank', self.browser.title)
 
 		first_question = Question.objects.create(text="Question #1: This is the first question ever")
-		Answer.objects.create(text="Answer 1", question=first_question, correct=True)
-		Answer.objects.create(text="Answer 2", question=first_question, correct=False)
+		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
+		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
 		Explination.objects.create(text="Explination for question #1", question=first_question)
 
 
@@ -40,11 +40,11 @@ class NewVisitorTest(LiveServerTestCase):
 # 		self.browser.get('/questions/%d/' % (first_question.id,))
 		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertIn('Answer 1', page_text)
+		time.sleep(10)
 
 # A first attempt at an answer is made, wrong answer!
-		self.browser.find_element_by_id("submit").click()
-		page_text = self.browser.find_element_by_tag_name('body').text
-		self.assertIn('Explination for question #1', page_text)
+		# self.browser.find_element_by_id("submit").click()
+
 		
 # A second attmept, correct answer. Text changes to green and an explination appears below
 
