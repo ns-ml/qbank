@@ -109,3 +109,11 @@ class AnswerViewTest (TestCase):
 
 	# 	self.assertRedirects(response, '/questions/%d' % (next_question.id,))
 
+	def test_checks_for_correct_answer(self):
+		question_stem = Question.objects.create()
+		Answer.objects.create(text='correct answer', question=question_stem, correct=True)
+		Explination.objects.create(text='', question=question_stem)
+
+		response = self.client.post(
+			'/questions/%d/' % (question_stem.id))
+

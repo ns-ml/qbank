@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 # Create your models here.
 class Question(models.Model):
@@ -12,4 +13,7 @@ class Answer(models.Model):
 class Explination(models.Model):
 	text = models.TextField(default='')
 	question = models.ForeignKey(Question, default=None)
+
+class AnswerForm(forms.Form):
+	user_answer = forms.CharField(label='Answer') 
 

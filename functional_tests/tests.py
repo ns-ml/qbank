@@ -2,7 +2,7 @@ from selenium import webdriver
 from django.test import LiveServerTestCase
 import unittest
 import time
-from qanda.models import Question, Answer
+from qanda.models import Question, Answer, Explination
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -21,6 +21,8 @@ class NewVisitorTest(LiveServerTestCase):
 		first_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1", question=first_question, correct=True)
 		Answer.objects.create(text="Answer 2", question=first_question, correct=False)
+		Explination.objects.create(text="Explination for question #1", question=first_question)
+
 
 # Student clicks the start button and is taken to the first question
 
@@ -41,7 +43,9 @@ class NewVisitorTest(LiveServerTestCase):
 
 # A first attempt at an answer is made, wrong answer!
 		self.browser.find_element_by_id("submit").click()
-		time.sleep(10)
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.assertIn('Explination for question #1', page_text)
+		
 # A second attmept, correct answer. Text changes to green and an explination appears below
 
 # Click on next button, which has been enabled
