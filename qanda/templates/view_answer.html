@@ -5,6 +5,7 @@
 </head>
 <body>
 <p>{{ question_stem.text }}</p>
+<p>{{ explination_text.text }}</p>
 <form method="POST" action="/questions/{{ next_question_id }}/">
 <table id='id_answers_table'>
 {% for answer in correct_answer %}
@@ -14,5 +15,6 @@
 <input type='Submit' value='Next Question' id='submit' autofocus>
 {% csrf_token %}
 </form>
+
 </body>
 </html>

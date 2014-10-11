@@ -3,7 +3,7 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from qanda.views import home_page
-from qanda.models import Answer, Question
+from qanda.models import Answer, Question, Explination
 
 # Create your tests here.
 
@@ -73,6 +73,7 @@ class AnswerViewTest (TestCase):
 	
 	def test_uses_view_template(self):
 		question_stem = Question.objects.create()
+		Explination.objects.create(text='Correct explination', question=question_stem)
 		response = self.client.get('/questions/%d/answer' % (question_stem.id,))
 		self.assertTemplateUsed(response, 'view_answer.html')
 
@@ -80,22 +81,31 @@ class AnswerViewTest (TestCase):
 		correct_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1", question=correct_question, correct=True)
 		Answer.objects.create(text="Answer 2", question=correct_question, correct=False)
-
+		Explination.objects.create(text='Correct explination', question=correct_question)
+		
 		response = self.client.get('/questions/%d/answer' % (correct_question.id,))
 
 		self.assertContains(response, 'Answer 1')
 		self.assertNotContains(response, 'Answer 2')
 
-	def test_redirects_to_next_question(self):
-		current_question = Question.objects.create(text="Question 1")
-		next_question = Question.objects.create(text="Question 2")
+	def test_displays_correct_explination(self):
+		correct_question = Question.objects.create(text="Q1")
+		wrong_question = Question.objects.create(text="Q2")
+		Answer.objects.create(text='Answer 1', question=correct_question)
+		Answer.objects.create(text='Answer 2', question=correct_question)
+		Answer.objects.create(text='Other answer 1', question=wrong_question)
+		Explination.objects.create(text='Correct explination', question=correct_question)
+		Explination.objects.create(text='Wrong explination', question=wrong_question)
 
-		# response = self.client.post(
-		# 	'/questions/%d/answer/' % (current_question.id,))
+		explination_text = Explination.objects.get(question=correct_question)
+		self.assertEqual('Correct explination', explination_text.text)
+	# def test_redirects_to_next_question(self):
+	# 	current_question = Question.objects.create(id=1)
+	# 	next_question = Question.objects.create(id=2)
 
-		# self.assertRedirects(response, '/questions/%d/' % (current_question.id,))
+	# 	response = self.client.post(
+	# 		'/questions/%d/answer' % (current_question.id,)
+	# 		)
 
-		response = self.client.post(
-			'/questions/1/answer',)
+	# 	self.assertRedirects(response, '/questions/%d' % (next_question.id,))
 
-		self.assertRedirects(response, '/questions/1/')

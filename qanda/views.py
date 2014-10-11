@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from qanda.models import Answer, Question
+from qanda.models import Answer, Question, Explination
 
 # Create your views here.
 def home_page(request):
@@ -15,7 +15,11 @@ def view_question(request, question_id):
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
 	next_question_id = int(question_id)+1
+	explination_text = Explination.objects.get(question=question_stem)
 	correct_answer = Answer.objects.filter(question=question_stem, correct=True)
 	return render (request, 'view_answer.html', {
-		'correct_answer': correct_answer, 'question_stem': question_stem, 'next_question_id':next_question_id
+		'correct_answer': correct_answer,
+		'question_stem': question_stem,
+		'next_question_id':next_question_id,
+		'explination_text':explination_text,
 		})
