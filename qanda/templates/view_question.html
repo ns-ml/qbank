@@ -11,6 +11,7 @@
 	<input type="radio" name='radio_answer' value='{{answer.text}}'> {{ answer.text }} <br>
 	{% endfor %}
 </table>
+<p>{{ try_again }}</p>
 <p><input type='Submit' value='View Correct Answer' id='submit'></p>
 {% csrf_token %}
 </form>

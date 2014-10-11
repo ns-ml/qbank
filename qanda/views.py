@@ -31,7 +31,14 @@ def check_answer(request, question_id):
 		user_answer = request.POST['radio_answer']
 		if user_answer == correct_answer.text:
 			return HttpResponseRedirect('/questions/%d/answer' % (question_number,))
+		else:
+			return render (request, 'view_question.html', {
+		'answers': answers,
+		'question_stem': question_stem,
+		'try_again': 'Sorry, try again.'
+		})
 
 	return render (request, 'view_question.html', {
-		'answers': answers, 'question_stem': question_stem,
+		'answers': answers,
+		'question_stem': question_stem,
 		})
