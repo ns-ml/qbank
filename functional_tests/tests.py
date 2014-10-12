@@ -50,7 +50,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 		self.browser.find_element_by_id("submit_id").click()
 		current_url = self.browser.current_url
-		self.assertEqual(current_url, 'http://localhost:8081/questions/1/')
+		self.assertRegex(current_url, '.+/questions/1/')
 		# time.sleep (20)
 
 # A wild (first) question appears!
