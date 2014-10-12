@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from qanda.models import Answer, Question, Explination, Reference
+from qanda.models import Answer, Question, Explanation, Reference
 import django.contrib
 # django.contrib.admin.AdminSite.site_header = "Qbank Administration"
 # django.contrib.admin.AdminSite.site_title = "Qbank Administration"
@@ -12,14 +12,14 @@ def home_page(request):
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
 	next_question_id = int(question_id)+1
-	explination_text = get_object_or_404(Explination, question=question_stem)
+	explanation_text = get_object_or_404(Explanation, question=question_stem)
 	references = Reference.objects.filter(question=question_stem)
 	correct_answer = Answer.objects.filter(question=question_stem, correct=True)
 	return render (request, 'view_answer.html', {
 		'correct_answer': correct_answer,
 		'question_stem': question_stem,
 		'next_question_id':next_question_id,
-		'explination_text':explination_text,
+		'explanation_text':explanation_text,
 		'references': references,
 		})
 

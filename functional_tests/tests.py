@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import time
-from qanda.models import Question, Answer, Explination, Reference
+from qanda.models import Question, Answer, Explanation, Reference
 
 class NewVisitorTest(StaticLiveServerTestCase):
 
@@ -22,13 +22,13 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		first_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
-		Explination.objects.create(text="Explination for question #1", question=first_question)
+		Explanation.objects.create(text="Explanation for question #1", question=first_question)
 		Reference.objects.create(text="Reference #1", question=first_question)
 
 		second_question = Question.objects.create(text="Question #2: El secundo")
 		Answer.objects.create(text="Second question answer #1", question=second_question, correct=True)
 		Answer.objects.create(text="Second question answer #2", question=second_question, correct=False)
-		Explination.objects.create(text="Explination for question #2", question=second_question)
+		Explanation.objects.create(text="Explanation for question #2", question=second_question)
 
 
 # Student clicks the start button and is taken to the first question
@@ -59,16 +59,16 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 		self.assertIn('try again', page_text)
 		
-# A second attmept, correct answer. User is taken to the answer explination page
+# A second attmept, correct answer. User is taken to the answer Explanation page
 		inputbox = self.browser.find_element_by_tag_name('input')
 		inputbox.send_keys(Keys.TAB)
 		inputbox.send_keys(Keys.SPACE)
 		self.browser.find_element_by_id("submit_id").click()
 
 		page_text = self.browser.find_element_by_tag_name('body').text
-		self.assertIn('Explination for question #1', page_text)
+		self.assertIn('Explanation for question #1', page_text)
 
-# Explination page also includes a reference to the answer
+# Explanation page also includes a reference to the answer
 		self.assertIn('Reference #1', page_text)
 
 

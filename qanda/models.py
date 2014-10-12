@@ -10,7 +10,7 @@ class Answer(models.Model):
 	correct = models.BooleanField(default='')
 	question = models.ForeignKey(Question, default=None)
 
-class Explination(models.Model):
+class Explanation(models.Model):
 	text = models.TextField(default='')
 	question = models.ForeignKey(Question, default=None)
 
