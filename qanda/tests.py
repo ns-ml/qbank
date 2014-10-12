@@ -3,7 +3,8 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from qanda.views import home_page, check_answer
-from qanda.models import Answer, Question, Explination
+from qanda.models import Answer, Question, Explination, Reference
+from django.shortcuts import get_object_or_404
 
 # Create your tests here.
 
@@ -57,6 +58,9 @@ class QuestionViewTest (TestCase):
 		correct_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1", question=correct_question, correct=True)
 		Answer.objects.create(text="Answer 2", question=correct_question, correct=False)
+		Explination.objects.create(text='Explination #1', question=correct_question)
+		Reference.objects.create(text='Reference #1', question=correct_question)	
+
 		other_question = Question.objects.create()
 		Answer.objects.create(text="Other Answer 1", question=other_question)
 		Answer.objects.create(text="Other Answer 2", question=other_question)
@@ -113,6 +117,14 @@ class AnswerViewTest (TestCase):
 
 		explination_text = Explination.objects.get(question=correct_question)
 		self.assertEqual('Correct explination', explination_text.text)
+
+	def test_retrieve_correct_reference(self):
+		correct_question = Question.objects.create(text="Q1")
+		Reference.objects.create(text='Reference #1', question=correct_question)
+
+		reference_text = get_object_or_404(Reference, question=correct_question)
+		
+		self.assertEqual('Reference #1', reference_text.text)
 
 
 

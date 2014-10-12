@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import time
-from qanda.models import Question, Answer, Explination
+from qanda.models import Question, Answer, Explination, Reference
 
 class NewVisitorTest(StaticLiveServerTestCase):
 
@@ -23,6 +23,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
 		Explination.objects.create(text="Explination for question #1", question=first_question)
+		Reference.objects.create(text="Reference #1", question=first_question)
 
 		second_question = Question.objects.create(text="Question #2: El secundo")
 		Answer.objects.create(text="Second question answer #1", question=second_question, correct=True)
@@ -66,6 +67,10 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertIn('Explination for question #1', page_text)
+
+# Explination page also includes a reference to the answer
+		self.assertIn('Reference #1', page_text)
+
 
 # Click on next button, which has been enabled
 		self.browser.find_element_by_id("submit_id").click()

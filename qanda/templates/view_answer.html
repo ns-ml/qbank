@@ -10,7 +10,14 @@
 {% endfor %}
 {% endblock %}
 		
-{% block explination_block %}<p>{{ explination_text.text }}</p>{% endblock %}	
+{% block explination_block %}<p>{{ explination_text.text }}</p>{% endblock %}
+
+{% block reference_block %}
+{% for reference in references %}
+{{ reference.text }}
+{% endfor %}
+{% endblock %}
+
 
 {% block form_action %}
 	<form method="GET" action="/questions/{{ next_question_id }}/">

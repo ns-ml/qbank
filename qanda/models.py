@@ -13,3 +13,7 @@ class Answer(models.Model):
 class Explination(models.Model):
 	text = models.TextField(default='')
 	question = models.ForeignKey(Question, default=None)
+
+class Reference(models.Model):
+	text= models.TextField(default='')
+	question = models.ForeignKey(Question, default=None)
