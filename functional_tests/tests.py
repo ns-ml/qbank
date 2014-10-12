@@ -4,8 +4,22 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import time
 from qanda.models import Question, Answer, Explanation, Reference
+import sys
 
 class NewVisitorTest(StaticLiveServerTestCase):
+	@classmethod
+	def setUpClass(cls):
+		for arg in sys.argv:
+			if 'liveserver' in arg:
+				cls.server_url = 'http://' + arg.split('=')[1]
+				return
+		super().setUpClass()
+		cls.server_url = cls.live_server_url
+
+	@classmethod
+	def tearDownClass(cls):
+		if cls.server_url == cls.live_server_url:
+			super().tearDownClass()
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -16,9 +30,10 @@ class NewVisitorTest(StaticLiveServerTestCase):
 # Student arrives at qbank website
 
 	def test_can_show_a_question(self):
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
 		self.assertIn('Neurosurgery', self.browser.title)
-
+		
+# Background database setup
 		first_question = Question.objects.create(text="Question #1: This is the first question ever")
 		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
