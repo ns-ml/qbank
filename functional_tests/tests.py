@@ -34,8 +34,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		self.assertIn('Neurosurgery', self.browser.title)
 		
 # Background database setup
-		first_question = Question.objects.create(text="Question #1: This is the first question ever")
-		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
+		first_question = Question.objects.create(text="question #1: This is the first question ever")
+		Answer.objects.create(text="Answer #1 (correct)", question=first_question, correct=True)
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
 		Explanation.objects.create(text="Explanation for question #1", question=first_question)
 		Reference.objects.create(text="Reference #1", question=first_question)
@@ -56,12 +56,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
 # A wild (first) question appears!
 
 		question_text = self.browser.find_element_by_tag_name('body').text
-		self.assertIn('Question #1', question_text)
+		self.assertIn('question #1', question_text)
 
 # # Two potential answers
 # 		self.browser.get('/questions/%d/' % (first_question.id,))
 		page_text = self.browser.find_element_by_tag_name('body').text
-		self.assertIn('Answer 1', page_text)
+		self.assertIn('Answer #1', page_text)
 
 # A first attempt at an answer is made, wrong answer!
 		inputbox = self.browser.find_element_by_tag_name('input')
@@ -90,6 +90,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 # Click on next button, which has been enabled
 		self.browser.find_element_by_id("submit_id").click()
 		page_text = self.browser.find_element_by_tag_name('body').text
-		self.assertIn('secundo', page_text)
+		self.assertIn('Question #2', page_text)
 # Student moves on to the next question
 		self.fail('Finish the test')
