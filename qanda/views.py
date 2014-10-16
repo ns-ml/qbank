@@ -10,8 +10,7 @@ def home_page(request):
 
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
-	next_question_id = Question.objects.filter(id__gt=question_id).order_by('id')[:1]
-	# next_question_id = int(question_id)+1
+	next_question_id = int(question_id)+1
 	explanation_text = get_object_or_404(Explanation, question=question_stem)
 	references = Reference.objects.filter(question=question_stem)
 	correct_answer = Answer.objects.filter(question=question_stem, correct=True)
