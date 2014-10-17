@@ -27,7 +27,16 @@ class NewVisitorTest(StaticLiveServerTestCase):
 	def tearDown(self):
 		self.browser.quit()
 
-# Student arrives at qbank website
+# Student arrives at qbank website and notices how nice it looks awesome
+
+	def test_layout_and_styling(self):
+		self.browser.get(self.live_server_url)
+		self.browser.set_window_size(1024, 768)
+
+		inputbox = self.browser.find_element_by_id('submit_id')
+		self.assertAlmostEqual(
+			inputbox.size['width'], 224, delta=5
+			)
 
 	def test_can_show_a_question(self):
 		self.browser.get(self.server_url)
@@ -44,6 +53,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		Answer.objects.create(text="Second question answer #1", question=second_question, correct=True)
 		Answer.objects.create(text="Second question answer #2", question=second_question, correct=False)
 		Explanation.objects.create(text="Explanation for question #2", question=second_question)
+
 
 
 # Student clicks the start button and is taken to the first question

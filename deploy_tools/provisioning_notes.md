@@ -2,7 +2,7 @@ Provisioning a new site
 =======================
 
 ## Required packages:
-* nginx
+* nginx 1.8
 * Python 3
 * Git
 * pip
