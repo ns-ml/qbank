@@ -6,7 +6,7 @@ ssh -i ~/dropbox/webdev/tdd/qbank.pem ubuntu@54.69.108.137
 
 scp -i qbank.pem database/db.sqlite3 ubuntu@54.69.108.137:~/sites/54.69.108.137/database
 
-scp -i qbank.pem -r database/ ubuntu@54.69.108.137:~/sites/54.69.108.137/
+scp -i ~/dropbox/webdev/tdd/qbank.pem -r database/ ubuntu@54.69.108.137:~/sites/54.69.108.137/
 
 ../virtualenv/bin/gunicorn qbank.wsgi:application
 
