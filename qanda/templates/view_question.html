@@ -11,9 +11,11 @@
 			<input type="radio" name='radio_answer' value='{{answer.text}}' required='true'> {{ answer.text }} <br>
 			{% endfor %}
 		</table>
+		{% if error %}
 		<div class='form-group has-error'>
-			<span class='help-block'>{{ try_again }}</span>
+			<span class='help-block'>{{ error }}</span>
 		</div>
+		{% endif %}
 	<p><input type='Submit' value='View Correct Answer' id='submit_id'></p>
 	{% csrf_token %}
 	</form>

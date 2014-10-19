@@ -1,5 +1,4 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
 from qanda.models import Answer, Question, Explanation, Reference
 import django.contrib
 from django.db.models import Max
@@ -27,19 +26,17 @@ def check_answer(request, question_id):
 	question_number = int(question_stem.id)
 	answers = Answer.objects.filter(question=question_stem)
 	correct_answer = Answer.objects.get(question=question_stem, correct=True)
+	error = None
 
 	if request.method == 'POST':
 		user_answer = request.POST['radio_answer']
 		if user_answer == correct_answer.text:
-			return HttpResponseRedirect('/questions/%d/answer' % (question_number,))
+			return redirect('/questions/%d/answer' % (question_number,))
 		else:
-			return render (request, 'view_question.html', {
-		'answers': answers,
-		'question_stem': question_stem,
-		'try_again': 'Sorry, try again.'
-		})
+			error = 'Sorry, try again'
 
 	return render (request, 'view_question.html', {
 		'answers': answers,
 		'question_stem': question_stem,
+		'error': error
 		})
