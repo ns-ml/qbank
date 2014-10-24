@@ -26,3 +26,13 @@ class QuestionandAnswerModelTest(TestCase):
 		self.assertEqual(first_answer.question, question_stem)
 		self.assertIn('Second', second_saved_answer.text)
 		self.assertEqual(second_answer.question, question_stem)
+
+	def test_retrieve_next_object_by_created_time(self):
+		first_question = Question(text="#1")
+		second_question = Question(text="#2")
+		first_question.save()
+		second_question.save()
+
+		retrieved_question = first_question.get_next_by_created()
+
+		self.assertEqual(retrieved_question.text, second_question.text)

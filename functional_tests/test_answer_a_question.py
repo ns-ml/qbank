@@ -12,12 +12,13 @@ class NewVisitorTest(FunctionalTest):
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
 		Explanation.objects.create(text="Explanation for question #1", question=first_question)
 		Reference.objects.create(text="Reference #1", question=first_question)
+		first_question.save()
 
 		second_question = Question.objects.create(text="Question #2: El secundo")
 		Answer.objects.create(text="Second question answer #1", question=second_question, correct=True)
 		Answer.objects.create(text="Second question answer #2", question=second_question, correct=False)
 		Explanation.objects.create(text="Explanation for question #2", question=second_question)
-
+		second_question.save()
 # Student clicks the start button and is taken to the first question
 
 		self.browser.find_element_by_id("submit_id").click()
