@@ -20,7 +20,7 @@
 
 
 {% block form_action %}
-	<form method="GET" action="{%url 'view_question' next_question_id %}">
+	<form method="GET" action="/questions/{{ next_question_id }}/">
 		{% csrf_token %}
 		<input type='Submit' value='Next Question' id='submit_id' autofocus>
 	</form>
