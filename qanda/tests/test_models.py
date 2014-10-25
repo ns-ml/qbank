@@ -1,5 +1,6 @@
 from django.test import TestCase
 from qanda.models import Answer, Question, Explanation, Reference
+from unittest import skip
 
 class QuestionandAnswerModelTest(TestCase):
 	
@@ -36,3 +37,13 @@ class QuestionandAnswerModelTest(TestCase):
 		retrieved_question = first_question.get_next_by_created()
 
 		self.assertEqual(retrieved_question.text, second_question.text)
+
+	@skip
+	def test_get_absolute_url_for_question(self):
+		question = Question.objects.create()
+		self.assertEqual(question.get_absolute_url(), '/questions/%d/' % (question.id,))
+	@skip
+	def test_get_absolute_url_for_answer(self):
+		question = Question.objects.create()
+		answer = Answer.objects.create(question=question)
+		self.assertEqual(answer.get_absolute_url(), '/questions/%d/answer' % (answer.id,))
