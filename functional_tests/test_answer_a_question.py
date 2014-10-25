@@ -1,6 +1,5 @@
 from base import FunctionalTest
 from selenium.webdriver.common.keys import Keys
-from qanda.models import Question, Answer, Explanation, Reference
 from qanda.views import WRONG_ANSWER_ERROR
 
 class NewVisitorTest(FunctionalTest):

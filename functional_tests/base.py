@@ -37,3 +37,6 @@ class FunctionalTest(StaticLiveServerTestCase):
 		Answer.objects.create(text="Second question answer #2", question=second_question, correct=False)
 		Explanation.objects.create(text="Explanation for question #2", question=second_question)
 		second_question.save()
+
+	def get_error_element(self):
+		return self.browser.find_element_by_css_selector('.has-error')
