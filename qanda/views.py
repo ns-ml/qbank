@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from qanda.models import Answer, Question, Explanation, Reference
 import django.contrib
 from django.db.models import Max
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def home_page(request):
@@ -9,7 +10,10 @@ def home_page(request):
 
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
-	next_question_id = int(question_id)+1
+	try:
+		next_question_id = question_stem.get_next_by_created().id
+	except ObjectDoesNotExist:
+		next_question_id = question_stem.id
 	explanation_text = get_object_or_404(Explanation, question=question_stem)
 	references = Reference.objects.filter(question=question_stem)
 	correct_answer = Answer.objects.filter(question=question_stem, correct=True)

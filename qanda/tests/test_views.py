@@ -64,6 +64,7 @@ class AnswerViewTest (TestCase):
 	def test_uses_view_template(self):
 		question_stem = Question.objects.create()
 		Explanation.objects.create(text='Correct Explanation', question=question_stem)
+		question_stem.save()
 		response = self.client.get('/questions/%d/answer' % (question_stem.id,))
 		self.assertTemplateUsed(response, 'view_answer.html')
 
