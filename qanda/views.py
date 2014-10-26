@@ -34,7 +34,8 @@ def view_answer(request, question_id):
 def check_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
 	answers = Answer.objects.filter(question=question_stem)
-	correct_answer = Answer.objects.get(question=question_stem, correct=True)
+	# correct_answer = Answer.objects.get(question=question_stem, correct=True)
+	correct_answer = get_object_or_404(Answer, question=question_stem, correct=True)
 	error = None
 
 	if request.method == 'POST':

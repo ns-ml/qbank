@@ -36,7 +36,6 @@ class NewVisitorTest(FunctionalTest):
 
 		error = self.get_error_element()
 		self.assertEqual(error.text, WRONG_ANSWER_ERROR)
-		self.assertIn('try again', page_text)
 		
 # A second attmept, correct answer. User is taken to the answer Explanation page
 		inputbox = self.browser.find_element_by_tag_name('input')
