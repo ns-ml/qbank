@@ -3,20 +3,17 @@ from selenium.webdriver.common.keys import Keys
 from qanda.views import WRONG_ANSWER_ERROR
 
 class NewVisitorTest(FunctionalTest):
-	def get_error_element(self):
-		return self.browser.find_element_by_css_selector('.has-error')
 
 # Background database setup
 	def test_can_show_a_question(self):
-		self.browser.get(self.server_url)
 		self.generate_two_questions()
-
+		self.browser.get(self.server_url)
 # Student clicks the start button and is taken to the first question
-
+		
 		self.browser.find_element_by_id("submit_id").click()
 		current_url = self.browser.current_url
 		self.assertRegex(current_url, '.+/questions/1/')
-		# time.sleep (20)
+		
 
 # A wild (first) question appears!
 

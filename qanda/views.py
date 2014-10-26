@@ -6,7 +6,10 @@ from django.core.exceptions import ObjectDoesNotExist
 WRONG_ANSWER_ERROR = 'Sorry, try again'
 
 def home_page(request):
-	return render (request, 'home.html')
+	first_question = Question.objects.first().id
+	return render (request, 'home.html', {
+		'first_question': first_question
+		})
 
 def view_answer(request, question_id):
 	question_stem = Question.objects.get(id=question_id)
