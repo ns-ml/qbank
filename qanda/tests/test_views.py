@@ -1,22 +1,25 @@
 from django.test import TestCase
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
-from django.template.loader import render_to_string
 from qanda.views import home_page, check_answer
 from qanda.models import Answer, Question, Explanation, Reference
 from django.shortcuts import get_object_or_404
 
 class HomePageTest(TestCase):
-
 	def test_root_url_resolves_to_home_page(self):
 		address = resolve('/')
 		self.assertEqual(address.func, home_page)
 
-	def test_home_page_returns_correct_html(self):
-		request = HttpRequest()
-		response = home_page(request)
-		expected_html = render_to_string('home.html')
-		self.assertEqual(response.content.decode(), expected_html)
+	# def test_home_page_returns_correct_html(self):
+	# 	request = HttpRequest()
+	# 	response = home_page(request)
+	# 	expected_html = render_to_string('home.html')
+	# 	self.assertEqual(response.content.decode(), expected_html)
+
+	def test_home_page_renders_home_template(self):
+		Question.objects.create()
+		response = self.client.get('/')
+		self.assertTemplateUsed(response, 'home.html')
 
 class QuestionViewTest (TestCase):
 
@@ -64,6 +67,7 @@ class AnswerViewTest (TestCase):
 	def test_uses_view_template(self):
 		question_stem = Question.objects.create()
 		Explanation.objects.create(text='Correct Explanation', question=question_stem)
+		question_stem.save()
 		response = self.client.get('/questions/%d/answer' % (question_stem.id,))
 		self.assertTemplateUsed(response, 'view_answer.html')
 
