@@ -49,3 +49,15 @@ deploy_tools/gunicorn-upstart.template.conf | sudo tee \
 sudo service nginx reload
 sudo stop gunicorn-qbank
 sudo start gunicorn-qbank
+
+===================
+Update Deployment:
+===================
+LOCAL: (in fab_deploy)
+fab deploy -i ~/dropbox/webdev/tdd/qbank.pem -H ubuntu@54.69.108.137
+
+SERVER:
+sudo restart gunicorn-qbank
+
+FT
+python3 manage.py test functional_tests --liveserver=nsqbank.com
