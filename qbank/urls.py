@@ -6,5 +6,4 @@ urlpatterns = patterns('',
     url(r'^questions/(\d+)/$', 'qanda.views.check_answer', name='view_question'),
     url(r'^questions/(\d+)/answer$', 'qanda.views.view_answer', name='view_answer'),
     url(r'^admin/', include(admin.site.urls)),
-    (r'', include('django_browserid.urls')),
 )
