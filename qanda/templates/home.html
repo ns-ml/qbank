@@ -14,19 +14,17 @@
 		<!-- Dropotron -->
 		<script src="/static/js/jquery.js"></script>
 		<script src="/static/js/jquery.dropotron.min.js"></script>
-			<script>
-			$(function() {
-				
-				// Note: make sure you call dropotron on the top level <ul>
-				$('#nav > ul').dropotron({ 
-					offsetY: -10 // Nudge up submenus by 10px to account for padding
-				});
+		<script>
+		$(function() {
 			
+			// Note: make sure you call dropotron on the top level <ul>
+			$('#nav > ul').dropotron({ 
+				offsetY: -10 // Nudge up submenus by 10px to account for padding
 			});
-			</script>
 
-
-
+		});
+		</script>
+		
 	</head>
 
 	<body class="homepage">
@@ -46,8 +44,7 @@
 							<li><a href="#">About the Exam</a></li>
 						</ul>
 						</li>
-						<li><a href='#'>Preview</a></li>
-						<li><a href="#">Log In</a></li>
+							<li><a href='#'>Preview</a></li>
 					</ul>
 				</nav>
 
@@ -77,6 +74,16 @@
 						<span class="byline">Reviewing material for the exam has never been easier</span>
 					</header>
 
+<div class="navbar">
+	{% if user.email %}
+		<p>Logged in as {{ user.email}}</p>
+		<p><a id="logout" href="{% url 'logout' %}">Sign out</a></p>
+	{% else %}
+		<a href="#" id="login">Sign in</a>
+	{% endif %}
+	<p>User: {{user}}</p>
+</div>
+
 						<div class="row">
 						<section class="col-md-4">
 							<a href="#" class="image feature"><img src="/static/imgs/pic02.jpg"></a>
@@ -94,7 +101,40 @@
 							
 					</section>
 
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://login.persona.org/include.js"></script>
+<script>
+$(document).ready(function() {
+
+var loginLink = document.getElementById('login');
+if (loginLink) {
+  loginLink.onclick = function() { navigator.id.request(); };
+}
+
+var logoutLink = document.getElementById('logout');
+if (logoutLink) {
+  logoutLink.onclick = function() { navigator.id.logout(); };
+}
+
+var currentUser = '{{ user.email }}' || null;
+var csrf_token = '{{ csrf_token }}';
+console.log(currentUser);
+
+navigator.id.watch({
+  loggedInUser: currentUser,
+  onlogin: function(assertion) {
+    $.post('/accounts/login', {assertion: assertion, csrfmiddlewaretoken: csrf_token})
+    .done(function() { window.location.reload(); })
+    .fail(function() { navigator.id.logout();});
+  },
+  onlogout: function() {
+    $.post('/accounts/logout')
+    .always(function() { window.location.reload(); });
+  }
+});
+
+});
+</script>
 				</div>
 				<div class="copyright">
 <h3>Design by: O. Arnaout <i class="fa fa-copyright fa-lg"></i> 2014-2015</h3>
