@@ -2,6 +2,7 @@ from base import FunctionalTest
 from qanda.views import WRONG_ANSWER_ERROR
 from selenium.webdriver.common.keys import Keys
 from qanda.models import Question
+import time
 
 class AnswerValidationTest(FunctionalTest):
 	def set_up_database_and_get_to_qanda_page(self):
@@ -11,7 +12,6 @@ class AnswerValidationTest(FunctionalTest):
 	
 	def test_shows_error_message_with_wrong_answer(self):
 		self.set_up_database_and_get_to_qanda_page()
-		
 		#wrong answer is picked
 		inputbox = self.browser.find_element_by_tag_name('input')
 		inputbox.send_keys(Keys.TAB)

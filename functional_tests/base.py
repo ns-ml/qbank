@@ -26,7 +26,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
 	def generate_two_questions(self):
 		first_question = Question.objects.create(text="question #1: This is the first question ever")
-		Answer.objects.create(text="Answer #1 (correct)", question=first_question, correct=True)
+		Answer.objects.create(text="Answer 1 (correct)", question=first_question, correct=True)
 		Answer.objects.create(text="Answer 2 (incorrect)", question=first_question, correct=False)
 		Explanation.objects.create(text="Explanation for question #1", question=first_question)
 		Reference.objects.create(text="Reference #1", question=first_question)

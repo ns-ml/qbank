@@ -23,7 +23,7 @@ class NewVisitorTest(FunctionalTest):
 # # Two potential answers
 # 		self.browser.get('/questions/%d/' % (first_question.id,))
 		page_text = self.browser.find_element_by_tag_name('body').text
-		self.assertIn('Answer #1', page_text)
+		self.assertIn('Answer 1', page_text)
 
 # A first attempt at an answer is made, wrong answer!
 		inputbox = self.browser.find_element_by_tag_name('input')
