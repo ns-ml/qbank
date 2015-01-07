@@ -1,5 +1,6 @@
 from django.test import TestCase
 from qanda.models import Answer, Question, Explanation, Reference
+from django.contrib.auth.models import User
 from unittest import skip
 
 class QuestionandAnswerModelTest(TestCase):
@@ -47,3 +48,13 @@ class QuestionandAnswerModelTest(TestCase):
 		question = Question.objects.create()
 		answer = Answer.objects.create(question=question)
 		self.assertEqual(answer.get_absolute_url(), '/questions/%d/answer' % (answer.id,))
+
+class UserProfileTest(TestCase):
+
+	def test_create_and_retrieve_users(self):
+		user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+		user.program = 'NMH'
+		self.assertEqual(user.username, 'john')
+		self.assertEqual(user.program, 'NMH')
+		# print (user.program)
+

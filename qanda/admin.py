@@ -1,5 +1,5 @@
 from django.contrib import admin
-from qanda.models import Question, Answer, Explanation, Reference
+from qanda.models import Question, Answer, Explanation, Reference, UserProfile
 
 class AnswersInline(admin.TabularInline):
 	model= Answer
@@ -23,3 +23,4 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(UserProfile)

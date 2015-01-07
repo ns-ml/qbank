@@ -1,9 +1,9 @@
 from django.db import models
 from django import forms
 import datetime
-from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+# from django.core.urlresolvers import reverse
 
-# Create your models here.
 class Question(models.Model):
 	text = models.TextField(default='')
 	created = models.DateTimeField(editable=False, default=datetime.datetime.now)
@@ -34,3 +34,16 @@ class Explanation(models.Model):
 class Reference(models.Model):
 	text = models.TextField(default='')
 	question = models.ForeignKey(Question, default=None)
+
+class UserProfile(models.Model):
+	# This line is required. Links UserProfile to a User model instance.
+	user = models.OneToOneField(User)
+
+	# picture = models.ImageField(upload_to='profile_images', blank=True)
+	program = models.TextField(blank=True)
+
+	def __unicode__(self):
+		return self.user.username
+
+
+		
