@@ -2,6 +2,8 @@
 <!--
 	Webdesign by Sciatic126
 -->
+{% load browserid %}
+{% load staticfiles %}
 <html>
 	<head>
 	<title>Neurosurgery Question Bank</title>
@@ -11,6 +13,7 @@
 		<link rel="stylesheet" href="/static/css/bootstrap.min.css">
 		<!-- Custom CSS -->
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+		<link rel="stylesheet" href="{% static 'browserid/persona-buttons.css' %}">
 		<!-- Dropotron -->
 		<script src="/static/js/jquery.js"></script>
 		<script src="/static/js/jquery.dropotron.min.js"></script>
@@ -100,7 +103,15 @@
 						</div>
 							
 					</section>
+    {% browserid_info %}
+    {% if user.is_authenticated %}
+      <p>Current user: {{ user.email }}</p>
+      {% browserid_logout text='Logout' %}
+    {% else %}
+      {% browserid_login text='Login' color='dark' %}
+    {% endif %}
 
+<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="https://login.persona.org/include.js"></script>
 <script>
@@ -135,6 +146,12 @@ navigator.id.watch({
 
 });
 </script>
+=======
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://login.persona.org/include.js"></script>
+    <script src="{% static 'browserid/api.js' %}"></script>
+    <script src="{% static 'browserid/browserid.js' %}"></script>
+>>>>>>> parent of 7bbfb37... removed all traces of browserid and returned to passing UTs
 				</div>
 				<div class="copyright">
 <h3>Design by: O. Arnaout <i class="fa fa-copyright fa-lg"></i> 2014-2015</h3>

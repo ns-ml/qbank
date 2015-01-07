@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'qanda',
     'django.contrib.admin',
     'django.contrib.auth',
+    'django_browserid',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -48,6 +49,7 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -95,4 +97,5 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static/'))
 
+#Django-browserid settings
 LOGIN_REDIRECT_URL = 'questions/1/'
