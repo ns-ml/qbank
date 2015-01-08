@@ -1,4 +1,4 @@
-from base import FunctionalTest
+from .base import FunctionalTest
 import time
 class LayoutAndStylingTest(FunctionalTest):
 

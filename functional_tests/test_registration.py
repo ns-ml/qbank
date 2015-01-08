@@ -1,4 +1,4 @@
-from base import FunctionalTest
+from .base import FunctionalTest
 # from selenium.webdriver.common.keys import Keys
 # import time
 
@@ -29,6 +29,8 @@ class RegistrationTest(FunctionalTest):
         inputbox = self.browser.find_element_by_id("id_program")
         inputbox.send_keys('test program')
         # time.sleep(10)
+
+        self.browser.find_element_by_name('submit').click()
 
         page_text = self.browser.find_element_by_tag_name('strong').text
         self.assertEqual(page_text, 'Thank you for registering!')

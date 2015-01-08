@@ -1,4 +1,4 @@
-from base import FunctionalTest
+from .base import FunctionalTest
 from qanda.views import WRONG_ANSWER_ERROR
 from selenium.webdriver.common.keys import Keys
 from qanda.models import Question
