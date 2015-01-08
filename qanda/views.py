@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from qanda.models import Answer, Question, Explanation, Reference
+from qanda.forms import UserForm, UserProfileForm
 import django.contrib
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -50,3 +51,47 @@ def check_answer(request, question_id):
 		'question_stem': question_stem,
 		'error': error
 		})
+
+def register(request):
+
+	#Tell the template whether the regitration was sucessful, changes to True when regitration sucessful
+	registered = False
+
+	if request.method == 'POST':
+		#Grab standard form raw data
+		user_form = UserForm(data=request.POST)
+		#Grab extra data in the profile
+		profile_form = UserProfileForm(data=request.POST)
+
+		#Validate
+		if user_form.is_valid() and profile_form.is_valid():
+			#Save the user's data to the database
+			user = user_form.save()
+
+			#Hash the password and update the object
+			user.set_password(user.password)
+			user.save()
+
+			#sort out the UserProfile instance, comit set to False to delay saving the model until ready
+			profile = profile_form.save(commit=False)
+			profile.user = user
+
+			profile.save()
+
+			#update the variable to tell the template that registration was sucessful
+			registered = True
+
+		# Invalid form? Print problems to the terminal and show them to the user
+		else:
+			print (user_form.errors, profile_form.errors)
+
+	#Not an HTTP pull means it must be a new form
+	else:
+		user_form = UserForm()
+		profile_form = UserProfileForm()
+
+	#Render the template
+	return render(request,
+		'register.html',
+		{'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
