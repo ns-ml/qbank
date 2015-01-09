@@ -2,7 +2,7 @@ from .base import FunctionalTest
 from qanda.views import WRONG_ANSWER_ERROR
 from selenium.webdriver.common.keys import Keys
 from qanda.models import Question
-import time
+# import time
 
 class AnswerValidationTest(FunctionalTest):
 	def set_up_database_and_get_to_qanda_page(self):
