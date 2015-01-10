@@ -1,97 +1,143 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect, HttpResponse
 from qanda.models import Answer, Question, Explanation, Reference
 from qanda.forms import UserForm, UserProfileForm
-import django.contrib
+# import django.contrib
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 
 WRONG_ANSWER_ERROR = 'Sorry, try again'
 
+
 def home_page(request):
-	first_question = Question.objects.first().id
-	return render (request, 'home.html', {
-		'first_question': first_question
-		})
+    first_question = Question.objects.first().id
+    return render (request, 'home.html', {
+       'first_question': first_question
+       })
 
+
+@login_required
 def view_answer(request, question_id):
-	question_stem = Question.objects.get(id=question_id)
-	explanation_text = get_object_or_404(Explanation, question=question_stem)
-	references = Reference.objects.filter(question=question_stem)
-	correct_answer = Answer.objects.filter(question=question_stem, correct=True)
-	
-	#Look for the next question by date created. If one does not exist, go back to the first.
-	try:
-		next_question_id = question_stem.get_next_by_created().id
-	except ObjectDoesNotExist:
-		next_question_id = Question.objects.first().id
+    question_stem = Question.objects.get(id=question_id)
+    explanation_text = get_object_or_404(Explanation, question=question_stem)
+    references = Reference.objects.filter(question=question_stem)
+    correct_answer = Answer.objects.filter(question=question_stem, correct=True)
+    
+    #Look for the next question by date created. If one does not exist, go back to the first.
+    try:
+       next_question_id = question_stem.get_next_by_created().id
+    except ObjectDoesNotExist:
+       next_question_id = Question.objects.first().id
 
-	return render (request, 'view_answer.html', {
-		'correct_answer': correct_answer,
-		'question_stem': question_stem,
-		'next_question_id':next_question_id,
-		'explanation_text':explanation_text,
-		'references': references,
-		})
+    return render (request, 'view_answer.html', {
+       'correct_answer': correct_answer,
+       'question_stem': question_stem,
+       'next_question_id':next_question_id,
+       'explanation_text':explanation_text,
+       'references': references,
+       })
 
+
+@login_required
 def check_answer(request, question_id):
-	question_stem = Question.objects.get(id=question_id)
-	answers = Answer.objects.filter(question=question_stem)
-	# correct_answer = Answer.objects.get(question=question_stem, correct=True)
-	correct_answer = get_object_or_404(Answer, question=question_stem, correct=True)
-	error = None
+    question_stem = Question.objects.get(id=question_id)
+    answers = Answer.objects.filter(question=question_stem)
+    # correct_answer = Answer.objects.get(question=question_stem, correct=True)
+    correct_answer = get_object_or_404(Answer, question=question_stem, correct=True)
+    error = None
 
-	if request.method == 'POST':
-		user_answer = request.POST['radio_answer']
-		if user_answer == correct_answer.text:
-			return redirect('/questions/%d/answer' % (question_stem.id,))
-		else:
-			error = WRONG_ANSWER_ERROR
+    if request.method == 'POST':
+       user_answer = request.POST['radio_answer']
+       if user_answer == correct_answer.text:
+         return redirect('/questions/%d/answer' % (question_stem.id,))
+       else:
+         error = WRONG_ANSWER_ERROR
 
-	return render (request, 'view_question.html', {
-		'answers': answers,
-		'question_stem': question_stem,
-		'error': error
-		})
+    return render (request, 'view_question.html', {
+       'answers': answers,
+       'question_stem': question_stem,
+       'error': error
+       })
 
 def register(request):
 
-	#Tell the template whether the regitration was sucessful, changes to True when regitration sucessful
-	registered = False
+    #Tell the template whether the regitration was sucessful, changes to True when regitration sucessful
+    registered = False
 
-	if request.method == 'POST':
-		#Grab standard form raw data
-		user_form = UserForm(data=request.POST)
-		#Grab extra data in the profile
-		profile_form = UserProfileForm(data=request.POST)
+    if request.method == 'POST':
+       #Grab standard form raw data
+       user_form = UserForm(data=request.POST)
+       #Grab extra data in the profile
+       profile_form = UserProfileForm(data=request.POST)
 
-		#Validate
-		if user_form.is_valid() and profile_form.is_valid():
-			#Save the user's data to the database
-			user = user_form.save()
+       #Validate
+       if user_form.is_valid() and profile_form.is_valid():
+         #Save the user's data to the database
+         user = user_form.save()
 
-			#Hash the password and update the object
-			user.set_password(user.password)
-			user.save()
+         #Hash the password and update the object
+         user.set_password(user.password)
+         user.save()
 
-			#sort out the UserProfile instance, comit set to False to delay saving the model until ready
-			profile = profile_form.save(commit=False)
-			profile.user = user
+         #sort out the UserProfile instance, comit set to False to delay saving the model until ready
+         profile = profile_form.save(commit=False)
+         profile.user = user
 
-			profile.save()
+         profile.save()
 
-			#update the variable to tell the template that registration was sucessful
-			registered = True
+         #update the variable to tell the template that registration was sucessful
+         registered = True
 
-		# Invalid form? Print problems to the terminal and show them to the user
-		else:
-			print (user_form.errors, profile_form.errors)
+       # Invalid form? Print problems to the terminal and show them to the user
+       else:
+         print (user_form.errors, profile_form.errors)
 
-	#Not an HTTP pull means it must be a new form
-	else:
-		user_form = UserForm()
-		profile_form = UserProfileForm()
+    #Not an HTTP pull means it must be a new form
+    else:
+       user_form = UserForm()
+       profile_form = UserProfileForm()
 
-	#Render the template
-	return render(request,
-		'register.html',
-		{'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    #Render the template
+    return render(request,
+       'register.html',
+       {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
+
+def user_login(request):
+
+    # If the request is an HTTP POST, pull relevent information
+    if request.method == 'POST':
+        # Gather username/password from the login form.
+        # The fields are based on the HTML ID tag
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Authenticate the user and return a user object if it exists
+        user = authenticate(username=username, password=password)
+
+        # If user exists
+        if user:
+            # and is active
+            if user.is_active:
+                #Log in and go to the questions page
+                login(request, user)
+                return HttpResponseRedirect('/questions/1/')
+            else:
+                #Account is inactive!
+                return HttpResponse("Your NSQbank account is disabled")
+        else:
+            # Bad login details
+            print ("Invalid login details: {0}, {1}".format(username,password))
+            return HttpResponse("Invalid login details supplied")
+
+    else:
+        # This means the request is not POST, blank form
+        return render(request, 'login.html', {})
+
+
+@login_required
+def user_logout(request):
+    #By definition, user is logged in
+    logout(request)
+    return HttpResponseRedirect('/')

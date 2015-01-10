@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     url(r'^questions/(\d+)/answer$', 'qanda.views.view_answer', name='view_answer'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^register/$', 'qanda.views.register', name='register'),
+    url(r'^login/$', 'qanda.views.user_login', name='login'),
+    url(r'^logout/$', 'qanda.views.user_logout', name='logout'),
 )

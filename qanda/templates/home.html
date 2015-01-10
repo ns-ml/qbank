@@ -47,8 +47,9 @@
 						</ul>
 						</li>
 						<li><a href='#'>Preview</a></li>
-						<li><a href="#">Log In</a></li>
-						<li><a href="/register/" id="register_btn">Register</li>
+						<li><a href="/login/">Log In</a></li>
+						<li><a href="/logout/">Log Out</a></li>
+						<li><a href="/register/" id="register_btn">Register</a></li>
 					</ul>
 				</nav>
 
@@ -61,6 +62,11 @@
 								<h2>Welcome to NSQ!</h2>
 								<span class="byline">&hellip; your source for review questions for preperation for the neurosurgery written board examination&hellip;</span>
 							</header>
+							{% if user.is_authenticated %}
+							<h3>Hello {{ user.username }}</h3>
+							{% else %}
+							<h3></h3>
+							{% endif %}
 							<a href="/questions/{{first_question}}/" class="button alt" id='submit_id'>Get Started</a>
 						</section>
 					</div>
