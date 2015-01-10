@@ -1,5 +1,5 @@
 from django.db import models
-from django import forms
+# from django import forms
 import datetime
 from django.contrib.auth.models import User
 # from django.core.urlresolvers import reverse
@@ -44,6 +44,3 @@ class UserProfile(models.Model):
 
 	def __unicode__(self):
 		return self.user.username
-
-
-		
