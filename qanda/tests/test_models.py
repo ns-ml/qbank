@@ -51,10 +51,10 @@ class QuestionandAnswerModelTest(TestCase):
 
 class UserProfileTest(TestCase):
 
-	def test_create_and_retrieve_users(self):
-		user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
-		user.program = 'NMH'
-		self.assertEqual(user.username, 'john')
-		self.assertEqual(user.program, 'NMH')
-		# print (user.program)
+    def test_create_and_retrieve_users(self):
+        user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        user.program = 'NMH'
+        self.assertEqual(user.username, 'john')
+        self.assertEqual(user.program, 'NMH')
+        # print (user.program)
 
